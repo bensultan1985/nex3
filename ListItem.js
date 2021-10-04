@@ -4,9 +4,11 @@ import React from 'react';
  import {View, SafeAreaView, Text, StyleSheet, FlatList, TouchableOpacity} from 'react-native'
   import DelEvent from './DelEvent.js'
   const ListItem = ({item, data, SetData}) => {
+    let itemStyle = HighlightItem(item);
+    console.log('style', itemStyle)
    return (
      <TouchableOpacity>
-         <View style={[styles.listItem, styles.shadowProp]}>
+         <View style={itemStyle}>
          <Text style={styles.time}>{FormatDate(item.date)}</Text>
             <ItemHead item={item}/>
             <Text style={styles.body}>{item.details}</Text>
@@ -20,7 +22,7 @@ import React from 'react';
       listItem: {
         paddingLeft: 10,
         paddingRight: 10,
-        borderColor: 'green',
+        borderColor: 'purple',
         borderRadius: 18,
         borderWidth: 2,
         marginLeft: 4,
@@ -76,6 +78,9 @@ import React from 'react';
     },
     del: {
       borderColor: 'green'
+    },
+    highlight: {
+      borderColor: 'green'
     }
   })
 
@@ -95,6 +100,20 @@ import React from 'react';
       <Text style={styles.header}>{item.title}</Text>
    </View>
  );
+}
+
+function HighlightItem(item) {
+  let now = new Date().getTime();
+  let tomorrow = new Date()
+  tomorrow.setDate(tomorrow.getDate() + 1)
+  tomorrow = new Date(tomorrow).getTime();
+  console.log(now, item.date, tomorrow, 'dates')
+
+  if (now < item.date && tomorrow > item.date) {
+    return [styles.listItem, styles.highlight, styles.shadowProp]
+  } else {
+    return [styles.listItem, styles.shadowProp]
+  }
 }
   
   export default ListItem;
