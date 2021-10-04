@@ -5,7 +5,6 @@ import React from 'react';
   import DelEvent from './DelEvent.js'
   const ListItem = ({item, data, SetData}) => {
     let itemStyle = HighlightItem(item);
-    console.log('style', itemStyle)
    return (
      <TouchableOpacity>
          <View style={itemStyle}>
@@ -80,7 +79,9 @@ import React from 'react';
       borderColor: 'green'
     },
     highlight: {
-      borderColor: 'green'
+      borderColor: 'green',
+      borderWidth: 4,
+
     }
   })
 
