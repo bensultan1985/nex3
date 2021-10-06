@@ -4,20 +4,22 @@ import React from 'react';
  import {View, SafeAreaView, Text, StyleSheet, FlatList, TouchableOpacity} from 'react-native'
   import DelEvent from './DelEvent.js'
   const ListItem = ({item, data, SetData}) => {
-    let itemStyle = HighlightItem(item);
+    let scheme = FindScheme(item);
    return (
      <TouchableOpacity>
-         <View style={itemStyle}>
-         <Text style={styles.time}>{FormatDate(item.date)}</Text>
-            <ItemHead item={item}/>
-            <Text style={styles.body}>{item.details}</Text>
-            <DelEvent mainText="delete" item={item} SetData={SetData} style={styles.del}/>
+         <View style={[styles[scheme].listItem, styles[scheme].shadowProp, styles[scheme].highlight]}>
+         <Text style={styles[scheme].time}>{FormatDate(item.date)}</Text>
+            <ItemHead item={item} style={styles[scheme]}/>
+            <Text style={styles[scheme].body}>{item.details}</Text>
+            <DelEvent mainText="delete" item={item} SetData={SetData} style={styles[scheme].del}/>
          </View>
      </TouchableOpacity>
    );
   }
  
-  const styles = StyleSheet.create({
+  const styles = StyleSheet.create(
+  {
+    past: {
       listItem: {
         paddingLeft: 10,
         paddingRight: 10,
@@ -32,39 +34,35 @@ import React from 'react';
 
       },
       time: {
-        // marginTop: 10,
-      color: 'black',
-      // backgroundColor: 'lightgray',
-      fontSize: 20,
-      marginTop: 2,
-      marginBottom: 2,
-      fontWeight: 'normal'
-  },
-  shadowProp: {
-    shadowColor: '#171717',
-    shadowOffset: {width: -2, height: 4},
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-  },
-  head: {
-    marginTop: 4,
-  color: 'black',
-  backgroundColor: 'green',
-  borderColor: 'green',
-  borderWidth: 0,
-  borderRadius: 18,
-  fontSize: 20,
-    padding: 4,
-  paddingLeft: 10
-},
+        color: 'black',
+        fontSize: 20,
+        marginTop: 2,
+        marginBottom: 2,
+        fontWeight: 'normal'
+      },
+      shadowProp: {
+        shadowColor: '#171717',
+        shadowOffset: {width: -2, height: 4},
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
+      },
+      head: {
+        marginTop: 4,
+        color: 'black',
+        backgroundColor: 'green',
+        borderColor: 'green',
+        borderWidth: 0,
+        borderRadius: 18,
+        fontSize: 20,
+        padding: 4,
+        paddingLeft: 10
+      },
       header: {
-          // marginTop: 10,
         color: 'white',
         fontWeight: "900",
-        // backgroundColor: 'lightgray',
         fontSize: 20
-    },
-    body: {
+      },
+      body: {
         padding: 4,
         paddingLeft: 26,
         color: 'black',
@@ -74,16 +72,141 @@ import React from 'react';
         borderColor: 'white',
         borderWidth: 1,
         fontSize: 20
+      },
+      del: {
+        borderColor: 'green'
+      },
+      highlight: {
+        borderColor: 'green',
+        borderWidth: 4,
+      }
     },
-    del: {
-      borderColor: 'green'
-    },
-    highlight: {
-      borderColor: 'green',
-      borderWidth: 4,
+    present: {
+      listItem: {
+        paddingLeft: 10,
+        paddingRight: 10,
+        borderColor: 'purple',
+        borderRadius: 18,
+        borderWidth: 2,
+        marginLeft: 4,
+        marginRight: 4,
+        marginTop: 6,
+        marginBottom: 8,
+        backgroundColor: 'white'
 
+      },
+      time: {
+        color: 'black',
+        fontSize: 20,
+        marginTop: 2,
+        marginBottom: 2,
+        fontWeight: 'normal'
+      },
+      shadowProp: {
+        shadowColor: '#171717',
+        shadowOffset: {width: -2, height: 4},
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
+      },
+      head: {
+        marginTop: 4,
+        color: 'black',
+        backgroundColor: 'green',
+        borderColor: 'green',
+        borderWidth: 0,
+        borderRadius: 18,
+        fontSize: 20,
+        padding: 4,
+        paddingLeft: 10
+      },
+      header: {
+        color: 'white',
+        fontWeight: "900",
+        fontSize: 20
+      },
+      body: {
+        padding: 4,
+        paddingLeft: 26,
+        color: 'black',
+        backgroundColor: 'white',
+        margin: 6,
+        marginBottom: 2,
+        borderColor: 'white',
+        borderWidth: 1,
+        fontSize: 20
+      },
+      del: {
+        borderColor: 'green'
+      },
+      highlight: {
+        borderColor: 'green',
+        borderWidth: 4,
+      }
+    },
+    future: {
+      listItem: {
+        paddingLeft: 10,
+        paddingRight: 10,
+        borderColor: 'purple',
+        borderRadius: 18,
+        borderWidth: 2,
+        marginLeft: 4,
+        marginRight: 4,
+        marginTop: 6,
+        marginBottom: 8,
+        backgroundColor: 'white'
+
+      },
+      time: {
+        color: 'black',
+        fontSize: 20,
+        marginTop: 2,
+        marginBottom: 2,
+        fontWeight: 'normal'
+      },
+      shadowProp: {
+        shadowColor: '#171717',
+        shadowOffset: {width: -2, height: 4},
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
+      },
+      head: {
+        marginTop: 4,
+        color: 'black',
+        backgroundColor: 'purple',
+        borderColor: 'purple',
+        borderWidth: 0,
+        borderRadius: 18,
+        fontSize: 20,
+        padding: 4,
+        paddingLeft: 10
+      },
+      header: {
+        color: 'white',
+        fontWeight: "900",
+        fontSize: 20
+      },
+      body: {
+        padding: 4,
+        paddingLeft: 26,
+        color: 'black',
+        backgroundColor: 'white',
+        margin: 6,
+        marginBottom: 2,
+        borderColor: 'white',
+        borderWidth: 1,
+        fontSize: 20
+      },
+      del: {
+        borderColor: 'purple'
+      },
+      highlight: {
+        borderColor: 'purple',
+        borderWidth: 4,
+      }
     }
-  })
+  }
+)
 
   function FormatDate(timestamp) {
     let dt = new Date(timestamp)
@@ -95,15 +218,15 @@ import React from 'react';
       dt.getMinutes().toString().padStart(2, '0')}`
   }
 
-  const ItemHead = ({item}) => {
+  const ItemHead = ({item, style}) => {
  return (
-   <View style={styles.head}>
-      <Text style={styles.header}>{item.title}</Text>
+   <View style={style.head}>
+      <Text style={style.header}>{item.title}</Text>
    </View>
  );
 }
 
-function HighlightItem(item) {
+function FindScheme(item) {
   let now = new Date().getTime();
   let tomorrow = new Date()
   tomorrow.setDate(tomorrow.getDate() + 1)
@@ -111,9 +234,11 @@ function HighlightItem(item) {
   console.log(now, item.date, tomorrow, 'dates')
 
   if (now < item.date && tomorrow > item.date) {
-    return [styles.listItem, styles.highlight, styles.shadowProp]
+    return 'present'
+  } else if (now > item.date) {
+    return 'past'
   } else {
-    return [styles.listItem, styles.shadowProp]
+    return 'future'
   }
 }
   

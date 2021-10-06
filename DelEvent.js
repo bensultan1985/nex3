@@ -13,7 +13,7 @@ import {View, SafeAreaView, Text, StyleSheet, FlatList, TouchableOpacity} from '
         // SetData();
       }
   return (
-    <TouchableOpacity onPress={() => {delEvent(item)}}>
+    <TouchableOpacity onPress={() => {delEvent(item)}} style={{alignSelf: 'flex-end' }}>
         <View style={styles.listItem}>
             <Text style={styles.buttonText}>
                 remove

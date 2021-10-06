@@ -6,7 +6,7 @@ import {View, SafeAreaView, Text, StyleSheet, FlatList, TouchableOpacity} from '
  const AddButton = ({text, func, buttonChar}) => {
    console.log('func', func)
   return (
-    <TouchableOpacity onPress={func}>
+    <TouchableOpacity onPress={func} style={{alignSelf: 'flex-start' }}>
         <View style={styles.listItem}>
             <Text style={styles.header}>{buttonChar}</Text><Text style={styles.subHeader}> {text}</Text>
         </View>
