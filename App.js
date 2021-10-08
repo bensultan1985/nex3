@@ -17,6 +17,20 @@ _init = true;
 
  
  const App = () => {
+  function getItemLayout(data, index) {
+    return { length: styles.listItem.height, offset: styles.listItem.height * index, index };
+  }
+
+  // useEffect(() => {{
+    function flatlistOnLoad() {
+    let sortedDates = SortItems(items)
+    let indexOfNext = 0;
+    let possibleNext = FindIndexOfNext(sortedDates)
+    if (typeof possibleNext == 'number' && possibleNext > 0) indexOfNext = possibleNext;
+
+    if (this.flatListRef.scrollToIndex) this.flatListRef.scrollToIndex({ index: indexOfNext });
+    }
+  // })
 
   const SetData = async (type, thisItem) => {
     if (type == 'add' && addForm) setItems(items => [...items, addForm]);
@@ -80,9 +94,9 @@ console.log('returned', str)
     for (let i =0; i < longerArr.length; i++) {
       if (value[i].key != items[i].key) match = false;
     }
-    console.log('2 attemps', value, match)
+    // console.log('2 attemps', value, match)
     if ((value != null && match == false) || _init == true) {
-      console.log('ADDED NEW DATA', value, match, _init)
+      // console.log('ADDED NEW DATA', value, match, _init)
       _init = false;
       setItems(value)
     }
@@ -168,8 +182,16 @@ console.log('returned', str)
           
       }}
       data = {SortItems(items)}
+      
+      ref={(ref) => this.flatListRef = ref}
+      // data={DATA}
+
+
+
       renderItem = {({item, data}) =>
-      <ListItem SetData={SetData} item={item} data={data} setScrollRef={setScrollRef}/>}
+      <ListItem SetData={SetData} item={item} data={data} setScrollRef={setScrollRef} flatlistOnLoad={flatlistOnLoad} items={SortItems(items)}/>}
+      keyExtractor={(item) => item.key}
+      getItemLayout={this.getItemLayout}
       // scrollToView={200}
       />
     </SafeAreaView>
@@ -213,6 +235,15 @@ console.log('returned', str)
       }
     }
     return futureDates
+ }
+
+ function FindIndexOfNext(sortedItems) {
+  let now = new Date().getTime();
+  for (let i = 0; i < sortedItems.length; i++) {
+    if (now <= sortedItems[i].date) {
+      return i
+    }
+  }
  }
  
  export default App;

@@ -1,13 +1,19 @@
 
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, SafeAreaView, Text, StyleSheet, FlatList, TouchableOpacity} from 'react-native'
 import DelEvent from './DelEvent.js'
 import EditEvent from './EditEvent.js'
+// init = true;
 
-
-  const ListItem = ({item, data, SetData, setScrollRef}) => {
+  const ListItem = ({item, data, SetData, setScrollRef, flatlistOnLoad, items}) => {
     let scheme = FindScheme(item);
+    console.log('findlast', item, items[items.length-1])
+    if (item.key == items[items.length-1].key) {
+    flatlistOnLoad()
+    // init = false;
+    }
+
     
   
    return (
