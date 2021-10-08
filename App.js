@@ -88,6 +88,9 @@ console.log('returned', str)
     }
   }
 
+  const [scrollRef, setScrollRef] = useState({})
+
+
 
   const [items, setItems] = useState(
     [
@@ -140,6 +143,9 @@ console.log('returned', str)
    if (_openAddForm == true) {
      formView = <View><AddForm setForm={setForm} toSetForm={toSetForm} addForm={addForm} setItems={setItems} items={items} SetData={SetData} toggleForm={toggleForm}></AddForm></View>
    }
+   
+
+
 
 
   return (
@@ -150,9 +156,21 @@ console.log('returned', str)
       {formView}
       <Text style={styles.subHeading}>Next Up:</Text>
       <FlatList style={styles.eventList}
-      data = {RemoveItemsBeforeToday(SortItems(items))}
+        // data = {RemoveItemsBeforeToday(SortItems(items))}
+        onScrollToTop={this.ref
+      }
+      
+        onScrollToIndexFailed={error => {
+          this.flatListRef.scrollToOffset({
+              offset: error.averageItemLength * error.index,
+              animated: true,
+          });
+          
+      }}
+      data = {SortItems(items)}
       renderItem = {({item, data}) =>
-      <ListItem SetData={SetData} item={item} data={data}/>}
+      <ListItem SetData={SetData} item={item} data={data} setScrollRef={setScrollRef}/>}
+      // scrollToView={200}
       />
     </SafeAreaView>
   );

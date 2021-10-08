@@ -1,17 +1,31 @@
 
 
 import React from 'react';
- import {View, SafeAreaView, Text, StyleSheet, FlatList, TouchableOpacity} from 'react-native'
-  import DelEvent from './DelEvent.js'
-  const ListItem = ({item, data, SetData}) => {
+import {View, SafeAreaView, Text, StyleSheet, FlatList, TouchableOpacity} from 'react-native'
+import DelEvent from './DelEvent.js'
+import EditEvent from './EditEvent.js'
+
+
+  const ListItem = ({item, data, SetData, setScrollRef}) => {
     let scheme = FindScheme(item);
+    
+  
    return (
      <TouchableOpacity>
-         <View style={[styles[scheme].listItem, styles[scheme].shadowProp, styles[scheme].highlight]}>
+         <View          ref={ref => {
+          this.flatListRef = ref;
+          console.log('REF', this.flatListRef)
+          let thisScheme = FindScheme(item)
+          if (thisScheme == 'present') setScrollRef(this.flatListRef)
+        }} style={[styles[scheme].listItem, styles[scheme].shadowProp, styles[scheme].highlight]}>
          <Text style={styles[scheme].time}>{FormatDate(item.date)}</Text>
             <ItemHead item={item} style={styles[scheme]}/>
             <Text style={styles[scheme].body}>{item.details}</Text>
-            <DelEvent mainText="delete" item={item} SetData={SetData} style={styles[scheme].del}/>
+            <View style={{flexDirection:"row"}}>
+            <EditEvent mainText="edit" item={item} SetData={SetData} style={styles[scheme].del}/>
+            <DelEvent mainText="remove" item={item} SetData={SetData} style={styles[scheme].del}/>
+            </View>
+
          </View>
      </TouchableOpacity>
    );
@@ -23,7 +37,7 @@ import React from 'react';
       listItem: {
         paddingLeft: 10,
         paddingRight: 10,
-        borderColor: 'purple',
+        borderColor: 'gray',
         borderRadius: 18,
         borderWidth: 2,
         marginLeft: 4,
@@ -49,8 +63,8 @@ import React from 'react';
       head: {
         marginTop: 4,
         color: 'black',
-        backgroundColor: 'green',
-        borderColor: 'green',
+        backgroundColor: 'gray',
+        borderColor: 'gray',
         borderWidth: 0,
         borderRadius: 18,
         fontSize: 20,
@@ -74,10 +88,10 @@ import React from 'react';
         fontSize: 20
       },
       del: {
-        borderColor: 'green'
+        borderColor: 'gray'
       },
       highlight: {
-        borderColor: 'green',
+        borderColor: 'gray',
         borderWidth: 4,
       }
     },
