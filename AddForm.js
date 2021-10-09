@@ -9,7 +9,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import {setForm} from 'react'
 
 
- const AddForm = ({setForm, addForm, toSetForm, setItems, items, SetData, toggleForm}) => {
+ const AddForm = ({setItems, items, SetData, toggleForm}) => {
     const [date, setDate] = useState(new Date());
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
@@ -36,11 +36,51 @@ import {setForm} from 'react'
 
     const addEvent = async item => {
       toSetForm('', 'id');
-      SetData('add');
+      SetData('add', item, addForm);
       console.log('adding event...')
       toggleForm();
       // SetData();
     }
+
+    const GetRand = () => {
+      let num =  Math.floor(Math.random() * 239487589);
+      return num;
+    }
+
+    let firstKey = GetRand();
+    const [addForm, setForm] = useState({
+      title: '',
+      details: '',
+      date: '',
+      key: firstKey
+    })
+
+    function toSetForm(text, type) {
+      //  console.log(type)
+      switch(type) {
+        case 'title': {
+          setForm({...addForm, title: text});
+          return
+        }
+        case 'details': {
+          setForm({...addForm, details: text});
+          return
+        }
+        case 'date': {
+          var date = new Date(text).getTime();
+          setForm({...addForm, date: date});
+          return
+        }
+        case 'id': {
+          let text = GetRand();
+          setForm({...addForm, key: text});
+          return;
+        }
+      }
+     }
+  
+
+
   return (
     <TouchableOpacity>
         <View style={styles.addForm}>

@@ -1,18 +1,33 @@
 
 
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, SafeAreaView, Text, StyleSheet, FlatList, TouchableOpacity} from 'react-native'
 import DelEvent from './DelEvent.js'
 import EditEvent from './EditEvent.js'
 // init = true;
+possibleNext = 0;
+firstPresent = true;
 
-  const ListItem = ({item, data, SetData, setScrollRef, flatlistOnLoad, items}) => {
+
+
+
+  const ListItem = ({item, data, SetData, setScrollRef, flatlistOnLoad, items, SortItems, FindIndexOfNext, indexOfNext, setIndexOfNext}) => {
+
     let scheme = FindScheme(item);
-    console.log('findlast', item, items[items.length-1])
     if (item.key == items[items.length-1].key) {
-    flatlistOnLoad()
-    // init = false;
+    setTimeout(flatlistOnLoad, 10)
     }
+
+    function flatlistOnLoad() {
+      let sortedDates = SortItems(items)
+      possibleNext = FindIndexOfNext(sortedDates)
+      // console.log('THIS IS NEXT:', possibleNext)
+      if (typeof possibleNext == 'number' && possibleNext > 0) setIndexOfNext(possibleNext);
+      if (this.flatListRef.scrollToIndex) {
+        this.flatListRef.scrollToIndex({ index: indexOfNext });
+          init = false;
+        }
+      }
 
     
   
@@ -20,9 +35,12 @@ import EditEvent from './EditEvent.js'
      <TouchableOpacity>
          <View          ref={ref => {
           this.flatListRef = ref;
-          console.log('REF', this.flatListRef)
+          // console.log('REF', this.flatListRef)
           let thisScheme = FindScheme(item)
-          if (thisScheme == 'present') setScrollRef(this.flatListRef)
+          if (thisScheme == 'present' && firstPresent) {
+            setScrollRef(this.flatListRef)
+            firstPresent = false;
+          }
         }} style={[styles[scheme].listItem, styles[scheme].shadowProp, styles[scheme].highlight]}>
          <Text style={styles[scheme].time}>{FormatDate(item.date)}</Text>
             <ItemHead item={item} style={styles[scheme]}/>
@@ -251,7 +269,7 @@ function FindScheme(item) {
   let tomorrow = new Date()
   tomorrow.setDate(tomorrow.getDate() + 1)
   tomorrow = new Date(tomorrow).getTime();
-  console.log(now, item.date, tomorrow, 'dates')
+  // console.log(now, item.date, tomorrow, 'dates')
 
   if (now < item.date && tomorrow > item.date) {
     return 'present'

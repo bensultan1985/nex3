@@ -10,11 +10,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Icon } from 'react-native-elements'
 _init = true;
 
- const GetRand = () => {
-   let num =  Math.floor(Math.random() * 239487589);
-   return num;
- }
-
  
  const App = () => {
   function getItemLayout(data, index) {
@@ -22,17 +17,10 @@ _init = true;
   }
 
   // useEffect(() => {{
-    function flatlistOnLoad() {
-    let sortedDates = SortItems(items)
-    let indexOfNext = 0;
-    let possibleNext = FindIndexOfNext(sortedDates)
-    if (typeof possibleNext == 'number' && possibleNext > 0) indexOfNext = possibleNext;
 
-    if (this.flatListRef.scrollToIndex) this.flatListRef.scrollToIndex({ index: indexOfNext });
-    }
   // })
 
-  const SetData = async (type, thisItem) => {
+  const SetData = async (type, thisItem, addForm) => {
     if (type == 'add' && addForm) setItems(items => [...items, addForm]);
     if (type == 'delete') {
       var newArr = [];
@@ -103,9 +91,10 @@ console.log('returned', str)
   }
 
   const [scrollRef, setScrollRef] = useState({})
+  const [indexOfNext, setIndexOfNext] = useState(0);
 
 
-
+  const [rerender, setRerender] = useState({render:true})
   const [items, setItems] = useState(
     [
     //  {key: 230874309, date: 1633095600000, title: 'Harvest Interview', details: 'Second interview'},
@@ -115,47 +104,33 @@ console.log('returned', str)
    )
   //  SetData()
   if (_init) GetData()
-  let firstKey = GetRand();
-   const [addForm, setForm] = useState({
-     title: '',
-     details: '',
-     date: '',
-     key: firstKey
-   })
 
   const [_openAddForm, setOpenAddForm] = useState(false)
 
   const toggleForm = () => {
     setOpenAddForm(!_openAddForm);
   }
-  
-   function toSetForm(text, type) {
-    //  console.log(type)
-    switch(type) {
-      case 'title': {
-        setForm({...addForm, title: text});
-        return
-      }
-      case 'details': {
-        setForm({...addForm, details: text});
-        return
-      }
-      case 'date': {
-        var date = new Date(text).getTime();
-        setForm({...addForm, date: date});
-        return
-      }
-      case 'id': {
-        let text = GetRand();
-        setForm({...addForm, key: text});
-        return;
+
+  function SortItems(items) {
+    items.sort(function (a, b) {
+     return a.date - b.date;
+     });
+   return items
+  }
+
+  function FindIndexOfNext(sortedItems) {
+    let now = new Date().getTime();
+    for (let i = 0; i < sortedItems.length; i++) {
+      if (now <= sortedItems[i].date) {
+        return i
       }
     }
    }
+  
 
    let formView = <Text></Text>;
    if (_openAddForm == true) {
-     formView = <View><AddForm setForm={setForm} toSetForm={toSetForm} addForm={addForm} setItems={setItems} items={items} SetData={SetData} toggleForm={toggleForm}></AddForm></View>
+     formView = <View><AddForm setItems={setItems} items={items} SetData={SetData} toggleForm={toggleForm}></AddForm></View>
    }
    
 
@@ -189,7 +164,7 @@ console.log('returned', str)
 
 
       renderItem = {({item, data}) =>
-      <ListItem SetData={SetData} item={item} data={data} setScrollRef={setScrollRef} flatlistOnLoad={flatlistOnLoad} items={SortItems(items)}/>}
+      <ListItem FindIndexOfNext={FindIndexOfNext} SortItems={SortItems} SetData={SetData} item={item} data={data} setScrollRef={setScrollRef}  items={SortItems(items)} rerender={rerender} setRerender={setRerender} indexOfNext={indexOfNext} setIndexOfNext={setIndexOfNext}/>}
       keyExtractor={(item) => item.key}
       getItemLayout={this.getItemLayout}
       // scrollToView={200}
@@ -219,12 +194,6 @@ console.log('returned', str)
    }
  })
 
- function SortItems(items) {
-   items.sort(function (a, b) {
-    return a.date - b.date;
-    });
-  return items
- }
 
  function RemoveItemsBeforeToday(items) {
    let now = new Date().getTime();
@@ -235,15 +204,6 @@ console.log('returned', str)
       }
     }
     return futureDates
- }
-
- function FindIndexOfNext(sortedItems) {
-  let now = new Date().getTime();
-  for (let i = 0; i < sortedItems.length; i++) {
-    if (now <= sortedItems[i].date) {
-      return i
-    }
-  }
  }
  
  export default App;
