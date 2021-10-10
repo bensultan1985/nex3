@@ -30,6 +30,15 @@ _init = true;
       })
       setItems(prev => newArr)
       }
+    if (type == 'modify') {
+      var newArr = [];
+      items.forEach(item => {
+        if (item.key != thisItem.key) newArr.push(item)
+      })
+      newArr.push(addForm)
+      setItems(prev => newArr)
+      setModification(false)
+    }
   }
   //effect sets store - learn why
   useEffect(() => {
@@ -93,6 +102,7 @@ console.log('returned', str)
   const [scrollRef, setScrollRef] = useState({})
   const [indexOfNext, setIndexOfNext] = useState(0);
   const [modification, setModification] = useState({});
+  const [isModification, setIsModification] = useState(false)
 
 
 
@@ -132,7 +142,7 @@ console.log('returned', str)
 
    let formView = <Text></Text>;
    if (_openAddForm == true) {
-     formView = <View><AddForm setItems={setItems} items={items} SetData={SetData} toggleForm={toggleForm}></AddForm></View>
+     formView = <View><AddForm setItems={setItems} items={items} SetData={SetData} toggleForm={toggleForm} modification={modification}></AddForm></View>
    }
    
 

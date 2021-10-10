@@ -9,7 +9,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import {setForm} from 'react'
 
 
- const AddForm = ({setItems, items, SetData, toggleForm, modification, buttonType}) => {
+ const AddForm = ({setItems, items, SetData, toggleForm, buttonType, modification}) => {
     const [date, setDate] = useState(new Date());
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
