@@ -92,6 +92,8 @@ console.log('returned', str)
 
   const [scrollRef, setScrollRef] = useState({})
   const [indexOfNext, setIndexOfNext] = useState(0);
+  const [modification, setModification] = useState({});
+
 
 
   const [rerender, setRerender] = useState({render:true})
@@ -141,7 +143,18 @@ console.log('returned', str)
     <SafeAreaView style={styles.safe}>
       {/* <Text style={styles.header}>CalBase</Text> */}
       <Text style={styles.header}>NEX{'\u2191'}</Text>
-      <AddButton text="add event" func={toggleForm} buttonChar="+"></AddButton>
+      <View style={{flexDirection: "row", marginTop: 4}}>
+       <AddButton text="add event" modification={modification} setModification={setModification} func={toggleForm} buttonChar={"\u002B"}></AddButton>
+       <AddButton text="completed" buttonChar={"\u2713"}></AddButton>
+       <AddButton text="settings" buttonChar={"\u2630"}></AddButton>
+       {/* <AddButton text="add event" modification={modification} setModification={setModification} func={toggleForm} buttonChar={"\u002B"}></AddButton>
+       <AddButton text="completed events" buttonChar={"\u2713"}></AddButton>
+       <AddButton text="settings" buttonChar={"\u2630"}></AddButton> */}
+       {/* 21Fx */}
+       {/*\u2699 */}
+
+
+      </View>
       {formView}
       <Text style={styles.subHeading}>Next Up:</Text>
       <FlatList style={styles.eventList}
@@ -164,7 +177,7 @@ console.log('returned', str)
 
 
       renderItem = {({item, data}) =>
-      <ListItem FindIndexOfNext={FindIndexOfNext} SortItems={SortItems} SetData={SetData} item={item} data={data} setScrollRef={setScrollRef}  items={SortItems(items)} rerender={rerender} setRerender={setRerender} indexOfNext={indexOfNext} setIndexOfNext={setIndexOfNext}/>}
+      <ListItem toggleForm={toggleForm} FindIndexOfNext={FindIndexOfNext} SortItems={SortItems} SetData={SetData} item={item} data={data} setScrollRef={setScrollRef}  items={SortItems(items)} rerender={rerender} setRerender={setRerender} indexOfNext={indexOfNext} setIndexOfNext={setIndexOfNext} modification={modification} setModification={setModification}/>}
       keyExtractor={(item) => item.key}
       getItemLayout={this.getItemLayout}
       // scrollToView={200}

@@ -6,18 +6,17 @@ import {View, SafeAreaView, Text, StyleSheet, FlatList, TouchableOpacity} from '
 // import { DeleteOutlined } from 'ant-design/icons'
 
 
- const EditEvent = ({text, func, mainText, item, SetData, buttonType, modification, setModification, toggleForm}) => {
-
+ const EditEvent = ({text, func, mainText, item, SetData}) => {
+    const delEvent = async (item) => {
+        SetData('delete', item);
+        console.log('deleting event...')
+        // SetData();
+      }
   return (
-    <TouchableOpacity onPress={() => {
-                toggleForm()
-                console.log('this item', item)
-                setModification(item)
-            }
-        } style={{alignSelf: 'flex-start', flex: 1}}>
+    <TouchableOpacity onPress={() => {delEvent(item)}} style={{alignSelf: 'flex-start', flex: 1}}>
         <View style={styles.button}>
             <Text style={styles.buttonText}>
-                edit
+                complete
                 {/* <Icon name="arrow" size={30} color="#900" /> */}
             </Text>
         </View>
@@ -38,7 +37,7 @@ import {View, SafeAreaView, Text, StyleSheet, FlatList, TouchableOpacity} from '
     //    margin: 4,
        borderBottomWidth: 0,
        borderRightWidth: 0,
-       borderLeftWidth: 0,
+    //    borderLeftWidth: 0,
       //  width: "50%",
        borderColor: 'gray',
    },

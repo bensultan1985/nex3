@@ -4,6 +4,7 @@ import React, {useEffect, useState} from 'react';
 import {View, SafeAreaView, Text, StyleSheet, FlatList, TouchableOpacity} from 'react-native'
 import DelEvent from './DelEvent.js'
 import EditEvent from './EditEvent.js'
+import CompleteEvent from './CompleteEvent.js'
 // init = true;
 possibleNext = 0;
 firstPresent = true;
@@ -11,7 +12,7 @@ firstPresent = true;
 
 
 
-  const ListItem = ({item, data, SetData, setScrollRef, flatlistOnLoad, items, SortItems, FindIndexOfNext, indexOfNext, setIndexOfNext}) => {
+  const ListItem = ({item, data, SetData, setScrollRef, flatlistOnLoad, items, SortItems, FindIndexOfNext, indexOfNext, setIndexOfNext, toggleForm, modification, setModification}) => {
 
     let scheme = FindScheme(item);
     if (item.key == items[items.length-1].key) {
@@ -41,13 +42,16 @@ firstPresent = true;
             setScrollRef(this.flatListRef)
             firstPresent = false;
           }
+          console.log('1', setModification)
         }} style={[styles[scheme].listItem, styles[scheme].shadowProp, styles[scheme].highlight]}>
          <Text style={styles[scheme].time}>{FormatDate(item.date)}</Text>
             <ItemHead item={item} style={styles[scheme]}/>
             <Text style={styles[scheme].body}>{item.details}</Text>
             <View style={{flexDirection:"row"}}>
-            <EditEvent mainText="edit" item={item} SetData={SetData} style={styles[scheme].del}/>
-            <DelEvent mainText="remove" item={item} SetData={SetData} style={styles[scheme].del}/>
+            <EditEvent modification={modification} setModification={setModification} toggleForm={toggleForm} buttonType={'modification'} mainText="edit" item={item} SetData={SetData} style={styles[scheme].del}/>
+            <DelEvent buttonType={'delete'} mainText="remove" item={item} SetData={SetData} style={styles[scheme].del}/>
+            <CompleteEvent buttonType={'complete'} mainText="complete" item={item} SetData={SetData} style={styles[scheme].del}/>
+
             </View>
 
          </View>

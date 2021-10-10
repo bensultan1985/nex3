@@ -1,7 +1,7 @@
 
 
 import React from 'react';
-import {Platform, TextInput, Button} from 'react-native';
+import {Platform, TextInput, Button, Pressable} from 'react-native';
 import {useState} from 'react'
 // import {Button, withTheme} from 'react-native-elements'
 import {View, SafeAreaView, Text, StyleSheet, FlatList, TouchableOpacity} from 'react-native'
@@ -9,7 +9,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import {setForm} from 'react'
 
 
- const AddForm = ({setItems, items, SetData, toggleForm}) => {
+ const AddForm = ({setItems, items, SetData, toggleForm, modification, buttonType}) => {
     const [date, setDate] = useState(new Date());
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
@@ -35,6 +35,15 @@ import {setForm} from 'react'
     };
 
     const addEvent = async item => {
+      if (buttonType == 'modification') {
+        console.log('testing edit')
+        return
+        toSetForm('', modification);
+        ModifyData('add', item, addForm);
+        console.log('editing event...')
+        toggleForm();
+        return
+      }
       toSetForm('', 'id');
       SetData('add', item, addForm);
       console.log('adding event...')
@@ -87,6 +96,7 @@ import {setForm} from 'react'
             <TextInput
               style={styles.textInput}
               placeholder="title"
+              returnKeyType = 'done'
               onChangeText={(text) => {
                 // console.log(addForm)
                 toSetForm(text, 'title')
@@ -94,6 +104,7 @@ import {setForm} from 'react'
               />
             <TextInput style={styles.textInput}
             placeholder="details"
+            returnKeyType = 'done'
             onChangeText={(text) => {
               // console.log(addForm)
               toSetForm(text, 'details')
@@ -107,8 +118,8 @@ import {setForm} from 'react'
           minuteInterval = {5}
           display="spinner"
           onChange={onChange}/>
-          <Button title="done" titleStyle={styles.button} buttonStyle={styles.button} onPress={addEvent}
-          />
+          <Pressable title="done" style={styles.button} onPress={addEvent}
+          ><Text style={styles.buttonText}>done</Text></Pressable>
         </View>
     </TouchableOpacity>
   );
@@ -138,9 +149,24 @@ import {setForm} from 'react'
        marginTop: 18
    },
    button: {
-       fontSize: 30,
-       color: 'black',
-       backgroundColor: 'white'
+       fontSize: 24,
+       color: 'green',
+       textAlign: 'center',
+       backgroundColor: 'white',
+       borderColor: 'green',
+       borderWidth: 1,
+       alignSelf: 'center',
+       padding: 10,
+       paddingLeft: 16,
+       paddingRight: 16,
+       borderRadius: 25
+   },
+   buttonText : {
+    fontSize: 24,
+    color: 'green',
+    textAlign: 'center',
+    backgroundColor: 'white',
+    alignSelf: 'center',
    }
  })
  
