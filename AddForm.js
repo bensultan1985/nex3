@@ -9,7 +9,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import {setForm} from 'react'
 
 
- const AddForm = ({setItems, items, SetData, toggleForm, buttonType, modification}) => {
+ const AddForm = ({setItems, items, SetData, toggleForm, buttonType, setIsModification, isModification, setNextForm}) => {
     const [date, setDate] = useState(new Date());
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
@@ -35,18 +35,10 @@ import {setForm} from 'react'
     };
 
     const addEvent = async item => {
-      if (buttonType == 'modification') {
-        console.log('testing edit')
-        return
-        toSetForm('', modification);
-        ModifyData('add', item, addForm);
-        console.log('editing event...')
-        toggleForm();
-        return
-      }
       toSetForm('', 'id');
       SetData('add', item, addForm);
       console.log('adding event...')
+      setNextForm('add')
       toggleForm();
       // SetData();
     }

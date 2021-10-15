@@ -3,10 +3,13 @@
 import React from 'react';
 import {View, SafeAreaView, Text, StyleSheet, FlatList, TouchableOpacity} from 'react-native'
  
- const AddButton = ({text, func, buttonChar}) => {
+ const AddButton = ({text, func, buttonChar, isModification, setIsModification, modification, setModification, setNextForm}) => {
    console.log('func', func)
   return (
-    <TouchableOpacity onPress={func} style={styles.view}>
+    <TouchableOpacity onPress={() => {
+      setNextForm('add')
+      func() //toggleForm
+    }} style={styles.view}>
         <View style={styles.listItem}>
             {/* <Text style={styles.header}>{buttonChar}</Text> */}
             <Text style={styles.subHeader}>{text}</Text>

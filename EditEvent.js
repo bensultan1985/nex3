@@ -6,15 +6,18 @@ import {View, SafeAreaView, Text, StyleSheet, FlatList, TouchableOpacity} from '
 // import { DeleteOutlined } from 'ant-design/icons'
 
 
- const EditEvent = ({text, func, mainText, item, SetData, buttonType, modification, setModification, toggleForm}) => {
+ const EditEvent = ({text, func, mainText, item, SetData, buttonType, modification, setModification, toggleForm, isModification, setIsModification, setNextForm, holdMod, setHoldMod}) => {
+
+    const isEdit = () => {
+        setNextForm('modification')
+        setIsModification(true)
+        toggleForm()
+        console.log('this item', item)
+        setHoldMod(item)
+    }
 
   return (
-    <TouchableOpacity onPress={() => {
-                toggleForm()
-                console.log('this item', item)
-                setModification(item)
-            }
-        } style={{alignSelf: 'flex-start', flex: 1}}>
+    <TouchableOpacity onPress={isEdit} style={{alignSelf: 'flex-start', flex: 1}}>
         <View style={styles.button}>
             <Text style={styles.buttonText}>
                 edit

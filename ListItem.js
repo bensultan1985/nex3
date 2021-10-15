@@ -12,7 +12,7 @@ firstPresent = true;
 
 
 
-  const ListItem = ({item, data, SetData, setScrollRef, flatlistOnLoad, items, SortItems, FindIndexOfNext, indexOfNext, setIndexOfNext, toggleForm, modification, setModification}) => {
+  const ListItem = ({item, data, SetData, setScrollRef, flatlistOnLoad, items, SortItems, FindIndexOfNext, indexOfNext, setIndexOfNext, toggleForm, modification, setModification, isModification, setIsModification, setNextForm, holdMod, setHoldMod}) => {
 
     let scheme = FindScheme(item);
     if (item.key == items[items.length-1].key) {
@@ -24,9 +24,11 @@ firstPresent = true;
       possibleNext = FindIndexOfNext(sortedDates)
       // console.log('THIS IS NEXT:', possibleNext)
       if (typeof possibleNext == 'number' && possibleNext > 0) setIndexOfNext(possibleNext);
-      if (this.flatListRef.scrollToIndex) {
-        this.flatListRef.scrollToIndex({ index: indexOfNext });
-          init = false;
+      if (this.flatListRef) {
+        if (this.flatListRef.scrollToIndex) {
+          this.flatListRef.scrollToIndex({ index: indexOfNext });
+            init = false;
+          }
         }
       }
 
@@ -42,13 +44,13 @@ firstPresent = true;
             setScrollRef(this.flatListRef)
             firstPresent = false;
           }
-          console.log('1', setModification)
+          // console.log('1', setModification)
         }} style={[styles[scheme].listItem, styles[scheme].shadowProp, styles[scheme].highlight]}>
          <Text style={styles[scheme].time}>{FormatDate(item.date)}</Text>
             <ItemHead item={item} style={styles[scheme]}/>
             <Text style={styles[scheme].body}>{item.details}</Text>
             <View style={{flexDirection:"row"}}>
-            <EditEvent modification={modification} setModification={setModification} toggleForm={toggleForm} buttonType={'modification'} mainText="edit" item={item} SetData={SetData} style={styles[scheme].del}/>
+            <EditEvent isModification={isModification} setIsModification={setIsModification} modification={modification} setModification={setModification} toggleForm={toggleForm} buttonType={'modification'} mainText="edit" item={item} SetData={SetData} style={styles[scheme].del} setNextForm={setNextForm} holdMod={holdMod} setHoldMod={setHoldMod}/>
             <DelEvent buttonType={'delete'} mainText="remove" item={item} SetData={SetData} style={styles[scheme].del}/>
             <CompleteEvent buttonType={'complete'} mainText="complete" item={item} SetData={SetData} style={styles[scheme].del}/>
 

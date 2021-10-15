@@ -6,6 +6,8 @@ import {View, SafeAreaView, Text, StyleSheet, FlatList} from 'react-native'
 import ListItem from './ListItem.js'
 import AddButton from './AddButton.js'
 import AddForm from './AddForm.js'
+import EditForm from './EditForm.js'
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Icon } from 'react-native-elements'
 _init = true;
@@ -20,8 +22,8 @@ _init = true;
 
   // })
 
-  const SetData = async (type, thisItem, addForm) => {
-    if (type == 'add' && addForm) setItems(items => [...items, addForm]);
+  const SetData = async (type, thisItem, form) => {
+    if (type == 'add' && form) setItems(items => [...items, form]);
     if (type == 'delete') {
       var newArr = [];
       items.forEach(item => {
@@ -30,14 +32,17 @@ _init = true;
       })
       setItems(prev => newArr)
       }
-    if (type == 'modify') {
+    if (type == 'modification') {
       var newArr = [];
       items.forEach(item => {
+        console.log(item, thisItem, 'COMPARISON SETDATA')
         if (item.key != thisItem.key) newArr.push(item)
       })
-      newArr.push(addForm)
+      newArr.push(form)
+      console.log(newArr, 'NEW ARR')
       setItems(prev => newArr)
-      setModification(false)
+      setNextForm(false)
+      // setModification(false)
     }
   }
   //effect sets store - learn why
@@ -101,9 +106,10 @@ console.log('returned', str)
 
   const [scrollRef, setScrollRef] = useState({})
   const [indexOfNext, setIndexOfNext] = useState(0);
-  const [modification, setModification] = useState({});
+  //the event to be modified
+  //states if "add" or "edit" window opens
   const [isModification, setIsModification] = useState(false)
-
+  const [holdMod, setHoldMod] = useState({})
 
 
   const [rerender, setRerender] = useState({render:true})
@@ -117,10 +123,22 @@ console.log('returned', str)
   //  SetData()
   if (_init) GetData()
 
-  const [_openAddForm, setOpenAddForm] = useState(false)
+  const [_openForm, setOpenForm] = useState(false)
+  const [_nextForm, setNextForm] = useState(false)
 
   const toggleForm = () => {
-    setOpenAddForm(!_openAddForm);
+    console.log('TOGGLE', _openForm, _nextForm)
+    if (_openForm == _nextForm && _openForm != false && _openForm != 'modification') {
+      setOpenForm(false);
+    } else if (_nextForm == 'add') {
+      if (_openForm == 'add') setOpenForm(false); else
+      setOpenForm('add')
+    } else if (_nextForm == 'modification') {
+      // if (_openForm == 'modification') setOpenForm(false); else
+      setOpenForm('modification')
+    } else if (_nextForm == false) {
+      setOpenForm(false)
+    }
   }
 
   function SortItems(items) {
@@ -141,8 +159,11 @@ console.log('returned', str)
   
 
    let formView = <Text></Text>;
-   if (_openAddForm == true) {
-     formView = <View><AddForm setItems={setItems} items={items} SetData={SetData} toggleForm={toggleForm} modification={modification}></AddForm></View>
+   if (_openForm == 'add') {
+     formView = <View><AddForm setItems={setItems} items={items} SetData={SetData} toggleForm={toggleForm}></AddForm></View>
+   } else if (_openForm == 'modification') {
+    formView = <View><EditForm setItems={setItems} items={items} SetData={SetData} toggleForm={toggleForm} holdMod={holdMod} setHoldMod={setHoldMod}></EditForm></View>
+
    }
    
 
@@ -154,7 +175,7 @@ console.log('returned', str)
       {/* <Text style={styles.header}>CalBase</Text> */}
       <Text style={styles.header}>NEX{'\u2191'}</Text>
       <View style={{flexDirection: "row", marginTop: 4}}>
-       <AddButton text="add event" modification={modification} setModification={setModification} func={toggleForm} buttonChar={"\u002B"}></AddButton>
+       <AddButton isModification={isModification} setIsModification={setIsModification} text="add event" func={toggleForm} buttonChar={"\u002B"} setNextForm={setNextForm}></AddButton>
        <AddButton text="completed" buttonChar={"\u2713"}></AddButton>
        <AddButton text="settings" buttonChar={"\u2630"}></AddButton>
        {/* <AddButton text="add event" modification={modification} setModification={setModification} func={toggleForm} buttonChar={"\u002B"}></AddButton>
@@ -187,7 +208,7 @@ console.log('returned', str)
 
 
       renderItem = {({item, data}) =>
-      <ListItem toggleForm={toggleForm} FindIndexOfNext={FindIndexOfNext} SortItems={SortItems} SetData={SetData} item={item} data={data} setScrollRef={setScrollRef}  items={SortItems(items)} rerender={rerender} setRerender={setRerender} indexOfNext={indexOfNext} setIndexOfNext={setIndexOfNext} modification={modification} setModification={setModification}/>}
+      <ListItem toggleForm={toggleForm} FindIndexOfNext={FindIndexOfNext} SortItems={SortItems} SetData={SetData} item={item} data={data} setScrollRef={setScrollRef}  items={SortItems(items)} rerender={rerender} setRerender={setRerender} indexOfNext={indexOfNext} setIndexOfNext={setIndexOfNext} isModification={isModification} setIsModification={setIsModification} setNextForm={setNextForm} holdMod={holdMod} setHoldMod={setHoldMod}/>}
       keyExtractor={(item) => item.key}
       getItemLayout={this.getItemLayout}
       // scrollToView={200}
