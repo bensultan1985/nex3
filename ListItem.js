@@ -12,7 +12,7 @@ firstPresent = true;
 
 
 
-  const ListItem = ({item, data, SetData, setScrollRef, flatlistOnLoad, items, SortItems, FindIndexOfNext, indexOfNext, setIndexOfNext, toggleForm, modification, setModification, isModification, setIsModification, setNextForm, holdMod, setHoldMod}) => {
+  const ListItem = ({item, data, SetData, setScrollRef, flatlistOnLoad, items, SortItems, FindIndexOfNext, indexOfNext, setIndexOfNext, toggleForm, modification, setModification, isModification, setIsModification, setNextForm, holdMod, setHoldMod, showList}) => {
 
     let scheme = FindScheme(item);
     if (item.key == items[items.length-1].key) {
@@ -32,6 +32,11 @@ firstPresent = true;
         }
       }
 
+      let completeButton = <CompleteEvent buttonType={'complete'} mainText="complete" item={item} SetData={SetData} style={styles[scheme].del}/>
+      ;
+      if (showList == 'complete') {
+        completeButton = ''
+      };
     
   
    return (
@@ -52,8 +57,7 @@ firstPresent = true;
             <View style={{flexDirection:"row"}}>
             <EditEvent isModification={isModification} setIsModification={setIsModification} modification={modification} setModification={setModification} toggleForm={toggleForm} buttonType={'modification'} mainText="edit" item={item} SetData={SetData} style={styles[scheme].del} setNextForm={setNextForm} holdMod={holdMod} setHoldMod={setHoldMod}/>
             <DelEvent buttonType={'delete'} mainText="remove" item={item} SetData={SetData} style={styles[scheme].del}/>
-            <CompleteEvent buttonType={'complete'} mainText="complete" item={item} SetData={SetData} style={styles[scheme].del}/>
-
+            {completeButton}
             </View>
 
          </View>

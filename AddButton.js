@@ -3,11 +3,15 @@
 import React from 'react';
 import {View, SafeAreaView, Text, StyleSheet, FlatList, TouchableOpacity} from 'react-native'
  
- const AddButton = ({text, func, buttonChar, isModification, setIsModification, modification, setModification, setNextForm}) => {
+ const AddButton = ({text, func, buttonChar, isModification, setIsModification, modification, setModification, setNextForm, toSet, showList, setShowList, currentList}) => {
    console.log('func', func)
   return (
     <TouchableOpacity onPress={() => {
-      setNextForm('add')
+      setNextForm(toSet)
+      if (currentList == "completed") {
+        if (showList == "default") setShowList("completed"); else 
+        setShowList("default")
+      }
       func() //toggleForm
     }} style={styles.view}>
         <View style={styles.listItem}>

@@ -110,6 +110,7 @@ console.log('returned', str)
   //states if "add" or "edit" window opens
   const [isModification, setIsModification] = useState(false)
   const [holdMod, setHoldMod] = useState({})
+  const [showList, setShowList] = useState('default')
 
 
   const [rerender, setRerender] = useState({render:true})
@@ -129,14 +130,20 @@ console.log('returned', str)
   const toggleForm = () => {
     console.log('TOGGLE', _openForm, _nextForm)
     if (_openForm == _nextForm && _openForm != false && _openForm != 'modification') {
+      console.log('1')
       setOpenForm(false);
     } else if (_nextForm == 'add') {
+      console.log('2')
       if (_openForm == 'add') setOpenForm(false); else
       setOpenForm('add')
     } else if (_nextForm == 'modification') {
+      console.log('3')
+
       // if (_openForm == 'modification') setOpenForm(false); else
       setOpenForm('modification')
     } else if (_nextForm == false) {
+      console.log('4')
+
       setOpenForm(false)
     }
   }
@@ -166,7 +173,27 @@ console.log('returned', str)
 
    }
    
+   function GetShowList(listItems) {
+     let retList = [];
+      if (showList == 'default') {
+      for (let i = 0; i < listItems.length; i++) {
+        if (listItems[i].completed == false || listItems[i].complete == null) {
+          retList.push(listItems[i])
+        }
+      }
+    } else if (showList == 'completed') {
+      for (let i = 0; i < listItems.length; i++) {
+        if (listItems[i].completed == true) {
+          retList.push(listItems[i])
+        }
+      }
+    }
+    return retList
+   }
 
+
+   completedButton = <AddButton text="completed" buttonChar={"\u2713"} toSet={false} setNextForm={setNextForm} func={toggleForm} showList={showList} setShowList={setShowList} currentList={"default"}></AddButton>;
+   if (showList == "completed") <AddButton text="current" buttonChar={"\u2713"} toSet={false} setNextForm={setNextForm} func={toggleForm} showList={showList} setShowList={setShowList} currentList={"completed"}></AddButton>;
 
 
 
@@ -175,9 +202,9 @@ console.log('returned', str)
       {/* <Text style={styles.header}>CalBase</Text> */}
       <Text style={styles.header}>NEX{'\u2191'}</Text>
       <View style={{flexDirection: "row", marginTop: 4}}>
-       <AddButton isModification={isModification} setIsModification={setIsModification} text="add event" func={toggleForm} buttonChar={"\u002B"} setNextForm={setNextForm}></AddButton>
-       <AddButton text="completed" buttonChar={"\u2713"}></AddButton>
-       <AddButton text="settings" buttonChar={"\u2630"}></AddButton>
+       <AddButton isModification={isModification} setIsModification={setIsModification} text="add event" func={toggleForm} buttonChar={"\u002B"} setNextForm={setNextForm} toSet={"add"} showList={showList} showList={showList} currentList={"add"}></AddButton>
+       {completedButton}
+       <AddButton text="settings" buttonChar={"\u2630"} toSet={false} setNextForm={setNextForm} func={toggleForm}></AddButton>
        {/* <AddButton text="add event" modification={modification} setModification={setModification} func={toggleForm} buttonChar={"\u002B"}></AddButton>
        <AddButton text="completed events" buttonChar={"\u2713"}></AddButton>
        <AddButton text="settings" buttonChar={"\u2630"}></AddButton> */}
@@ -188,7 +215,7 @@ console.log('returned', str)
       </View>
       {formView}
       <Text style={styles.subHeading}>Next Up:</Text>
-      <FlatList style={styles.eventList}
+      {<FlatList style={styles.eventList}
         // data = {RemoveItemsBeforeToday(SortItems(items))}
         onScrollToTop={this.ref
       }
@@ -200,7 +227,7 @@ console.log('returned', str)
           });
           
       }}
-      data = {SortItems(items)}
+      data = {GetShowList(SortItems(items))}
       
       ref={(ref) => this.flatListRef = ref}
       // data={DATA}
@@ -208,11 +235,11 @@ console.log('returned', str)
 
 
       renderItem = {({item, data}) =>
-      <ListItem toggleForm={toggleForm} FindIndexOfNext={FindIndexOfNext} SortItems={SortItems} SetData={SetData} item={item} data={data} setScrollRef={setScrollRef}  items={SortItems(items)} rerender={rerender} setRerender={setRerender} indexOfNext={indexOfNext} setIndexOfNext={setIndexOfNext} isModification={isModification} setIsModification={setIsModification} setNextForm={setNextForm} holdMod={holdMod} setHoldMod={setHoldMod}/>}
+      <ListItem toggleForm={toggleForm} FindIndexOfNext={FindIndexOfNext} SortItems={SortItems} SetData={SetData} item={item} data={data} setScrollRef={setScrollRef}  items={SortItems(items)} rerender={rerender} setRerender={setRerender} indexOfNext={indexOfNext} setIndexOfNext={setIndexOfNext} isModification={isModification} setIsModification={setIsModification} setNextForm={setNextForm} holdMod={holdMod} setHoldMod={setHoldMod} showList={showList} setShowList={setShowList}/>}
       keyExtractor={(item) => item.key}
       getItemLayout={this.getItemLayout}
       // scrollToView={200}
-      />
+      />}
     </SafeAreaView>
   );
  }

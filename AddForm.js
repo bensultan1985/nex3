@@ -53,7 +53,8 @@ import {setForm} from 'react'
       title: '',
       details: '',
       date: '',
-      key: firstKey
+      key: firstKey,
+      completed: false
     })
 
     function toSetForm(text, type) {
