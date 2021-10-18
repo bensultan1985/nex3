@@ -1,5 +1,8 @@
 
-//to run: react-native run-ios
+///// to run: react-native run-ios
+//// author: Benjamin Sultan
+/// v 1.0.0
+// notes:
 
 import React, {useState, useEffect} from 'react';
 import {View, SafeAreaView, Text, StyleSheet, FlatList} from 'react-native'
@@ -11,6 +14,7 @@ import EditForm from './EditForm.js'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Icon } from 'react-native-elements'
 _init = true;
+_nextForm = false;
 
  
  const App = () => {
@@ -18,9 +22,9 @@ _init = true;
     return { length: styles.listItem.height, offset: styles.listItem.height * index, index };
   }
 
-  // useEffect(() => {{
-
-  // })
+  const setNextForm = (status) => {
+    _nextForm = status
+  }
 
   const SetData = async (type, thisItem, form) => {
     if (type == 'add' && form) setItems(items => [...items, form]);
@@ -123,9 +127,9 @@ console.log('returned', str)
   if (_init) GetData()
 
   const [_openForm, setOpenForm] = useState(false)
-  const [_nextForm, setNextForm] = useState(false)
+  // const [_nextForm, setNextForm] = useState(false)
 
-  const toggleForm = () => {
+  const toggleForm = (next) => {
     console.log('TOGGLE', _openForm, _nextForm)
     if (_openForm == _nextForm && _openForm != false && _openForm != 'modification') {
       console.log('1')
@@ -145,7 +149,6 @@ console.log('returned', str)
       setOpenForm(false)
     }
   }
-
   function SortItems(items) {
     items.sort(function (a, b) {
      return a.date - b.date;
@@ -206,7 +209,7 @@ console.log('returned', str)
       {/* <Text style={styles.header}>CalBase</Text> */}
       <Text style={styles.header}>NEX{'\u2191'}</Text>
       <View style={{flexDirection: "row", marginTop: 4}}>
-       <AddButton isModification={isModification} setIsModification={setIsModification} text="add event" func={toggleForm} buttonChar={"\u002B"} setNextForm={setNextForm} toSet={"add"} showList={showList} showList={showList} currentList={"add"}></AddButton>
+       <AddButton isModification={isModification} setIsModification={setIsModification} text="add event" func={toggleForm} buttonChar={"\u002B"} _nextForm={_nextForm} setNextForm={setNextForm} toSet={"add"} showList={showList} showList={showList} currentList={"add"}></AddButton>
        {completedButton}
        <AddButton text="settings" buttonChar={"\u2630"} toSet={false} setNextForm={setNextForm} func={toggleForm}></AddButton>
        {/* <AddButton text="add event" modification={modification} setModification={setModification} func={toggleForm} buttonChar={"\u002B"}></AddButton>
