@@ -203,7 +203,7 @@ const styles2 = StyleSheet.create(
       listItem: {
         paddingLeft: 10,
         paddingRight: 10,
-        borderColor: 'gold',
+        borderColor: '#1A80D2',
         borderRadius: 18,
         borderWidth: 2,
         marginLeft: 4,
@@ -229,8 +229,8 @@ const styles2 = StyleSheet.create(
       head: {
         marginTop: 4,
         color: 'black',
-        backgroundColor: 'green',
-        borderColor: 'gold',
+        backgroundColor: '#1A80D2',
+        borderColor: '#1A80D2',
         borderWidth: 0,
         borderRadius: 18,
         fontSize: 20,
@@ -254,10 +254,10 @@ const styles2 = StyleSheet.create(
         fontSize: 20
       },
       del: {
-        borderColor: 'gold'
+        borderColor: '#1A80D2'
       },
       highlight: {
-        borderColor: 'gold',
+        borderColor: '#1A80D2',
         borderWidth: 4,
       }
     },
@@ -265,7 +265,7 @@ const styles2 = StyleSheet.create(
       listItem: {
         paddingLeft: 10,
         paddingRight: 10,
-        borderColor: 'gold',
+        borderColor: '#1A80D2',
         borderRadius: 18,
         borderWidth: 2,
         marginLeft: 4,
@@ -291,8 +291,8 @@ const styles2 = StyleSheet.create(
       head: {
         marginTop: 4,
         color: 'black',
-        backgroundColor: 'green',
-        borderColor: 'gold',
+        backgroundColor: '#1A80D2',
+        borderColor: '#1A80D2',
         borderWidth: 0,
         borderRadius: 18,
         fontSize: 20,
@@ -316,10 +316,10 @@ const styles2 = StyleSheet.create(
         fontSize: 20
       },
       del: {
-        borderColor: 'gold'
+        borderColor: '#1A80D2'
       },
       highlight: {
-        borderColor: 'gold',
+        borderColor: '#1A80D2',
         borderWidth: 4,
       }
     },
@@ -353,8 +353,8 @@ const styles2 = StyleSheet.create(
       head: {
         marginTop: 4,
         color: 'black',
-        backgroundColor: 'green',
-        borderColor: 'gold',
+        backgroundColor: '#1A80D2',
+        borderColor: '#1A80D2',
         borderWidth: 0,
         borderRadius: 18,
         fontSize: 20,
@@ -378,10 +378,10 @@ const styles2 = StyleSheet.create(
         fontSize: 20
       },
       del: {
-        borderColor: 'gold'
+        borderColor: '#1A80D2'
       },
       highlight: {
-        borderColor: 'gold',
+        borderColor: '#1A80D2',
         borderWidth: 4,
       }
     }
@@ -396,7 +396,6 @@ var listStyle = styles;
 
 
   const ListItem = ({item, data, SetData, setScrollRef, flatlistOnLoad, items, SortItems, FindIndexOfNext, indexOfNext, setIndexOfNext, toggleForm, modification, setModification, isModification, setIsModification, setNextForm, holdMod, setHoldMod, showList}) => {
-    console.log(showList, 'SHWOLIST')
     if (showList == "completed") listStyle = styles2; else listStyle = styles;
 
     let scheme = FindScheme(item);
@@ -409,12 +408,16 @@ var listStyle = styles;
       possibleNext = FindIndexOfNext(sortedDates)
       // console.log('THIS IS NEXT:', possibleNext)
       if (typeof possibleNext == 'number' && possibleNext > 0) setIndexOfNext(possibleNext);
+      if (showList == 'default') {
       if (this.flatListRef) {
         if (this.flatListRef.scrollToIndex) {
+          console.log(this.flatListRef.scrollToIndex, 'flatlistRef')
+
           this.flatListRef.scrollToIndex({ index: indexOfNext });
             init = false;
           }
         }
+      }
       }
 
       let completeButton = <CompleteEvent buttonType={'complete'} mainText="complete" item={item} SetData={SetData} style={styles[scheme].del}/>
