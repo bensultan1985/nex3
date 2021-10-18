@@ -11,7 +11,9 @@ import {View, SafeAreaView, Text, StyleSheet, FlatList, TouchableOpacity} from '
       if (currentList == "completed") {
         if (showList == "default") setShowList("completed"); else 
         setShowList("default")
-      }
+      } else if (currentList == "default") 
+        if (showList == "completed") setShowList("default"); else 
+      setShowList("completed")
       func() //toggleForm
     }} style={styles.view}>
         <View style={styles.listItem}>

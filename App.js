@@ -110,9 +110,7 @@ console.log('returned', str)
   //states if "add" or "edit" window opens
   const [isModification, setIsModification] = useState(false)
   const [holdMod, setHoldMod] = useState({})
-  const [showList, setShowList] = useState('default')
-
-
+  const [showList, setShowList] = useState("default")
   const [rerender, setRerender] = useState({render:true})
   const [items, setItems] = useState(
     [
@@ -191,9 +189,15 @@ console.log('returned', str)
     return retList
    }
 
-
-   completedButton = <AddButton text="completed" buttonChar={"\u2713"} toSet={false} setNextForm={setNextForm} func={toggleForm} showList={showList} setShowList={setShowList} currentList={"default"}></AddButton>;
-   if (showList == "completed") <AddButton text="current" buttonChar={"\u2713"} toSet={false} setNextForm={setNextForm} func={toggleForm} showList={showList} setShowList={setShowList} currentList={"completed"}></AddButton>;
+   let completeButton = '';
+   let listTitle = "next up:"
+   if (showList == "default") {
+    listTitle = "next up:"
+     completedButton = <AddButton text={"completed"} buttonChar={"\u2713"} toSet={false} setNextForm={setNextForm} func={toggleForm} showList={showList} setShowList={setShowList} currentList={"default"}></AddButton>;
+   } else if (showList == "completed") {
+    listTitle = "completed:"
+     completedButton = <AddButton text={"to do"} buttonChar={"\u2713"} toSet={false} setNextForm={setNextForm} func={toggleForm} showList={showList} setShowList={setShowList} currentList={"completed"}></AddButton>;
+   }
 
 
 
@@ -214,7 +218,7 @@ console.log('returned', str)
 
       </View>
       {formView}
-      <Text style={styles.subHeading}>Next Up:</Text>
+      <Text style={styles.subHeading}>{listTitle}</Text>
       {<FlatList style={styles.eventList}
         // data = {RemoveItemsBeforeToday(SortItems(items))}
         onScrollToTop={this.ref
