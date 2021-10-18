@@ -7,13 +7,13 @@ import {View, SafeAreaView, Text, StyleSheet, FlatList, TouchableOpacity} from '
 
 
  const EditEvent = ({text, func, mainText, item, SetData}) => {
-    const delEvent = async (item) => {
-        SetData('delete', item);
+    const completeEvent = async () => {
+        SetData('completed', item);
         console.log('deleting event...')
         // SetData();
       }
   return (
-    <TouchableOpacity onPress={() => {delEvent(item)}} style={{alignSelf: 'flex-start', flex: 1}}>
+    <TouchableOpacity onPress={() => {completeEvent(item)}} style={{alignSelf: 'flex-start', flex: 1}}>
         <View style={styles.button}>
             <Text style={styles.buttonText}>
                 complete

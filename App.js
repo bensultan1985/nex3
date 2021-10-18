@@ -48,6 +48,22 @@ _nextForm = false;
       setNextForm(false)
       // setModification(false)
     }
+    if (type == 'completed') {
+      var newArr = [];
+      items.forEach(item => {
+        console.log(item.key, thisItem.key)
+
+        console.log(item, thisItem, 'COMPARISON SETDATA')
+        if (item.key != thisItem.key) newArr.push(item)
+      })
+      thisItem.completed = true;
+      newArr.push(thisItem)
+      console.log(newArr, 'NEW ARR')
+      setItems(prev => newArr)
+      console.log(items)
+      setNextForm(false)
+      // setModification(false)
+    }
   }
   //effect sets store - learn why
   useEffect(() => {
@@ -177,18 +193,21 @@ console.log('returned', str)
    function GetShowList(listItems) {
      let retList = [];
       if (showList == 'default') {
+        console.log('default')
       for (let i = 0; i < listItems.length; i++) {
-        if (listItems[i].completed == false || listItems[i].complete == null) {
+        if (listItems[i].completed == false || listItems[i].completed == null) {
           retList.push(listItems[i])
         }
       }
     } else if (showList == 'completed') {
+      console.log('complete')
       for (let i = 0; i < listItems.length; i++) {
         if (listItems[i].completed == true) {
           retList.push(listItems[i])
         }
       }
     }
+    console.log(retList, showList)
     return retList
    }
 
