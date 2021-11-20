@@ -48,7 +48,7 @@ import {View, SafeAreaView, Text, StyleSheet, FlatList, TouchableOpacity} from '
    buttonText: {
     fontSize: 20,
     alignSelf: 'center',
-    padding: 4,
+    padding: 1,
     paddingLeft: 10,
     paddingRight: 10,
     color: 'gray'
