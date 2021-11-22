@@ -439,7 +439,7 @@ var listStyle = styles;
           }
           // console.log('1', setModification)
         }} style={[listStyle[scheme].listItem, listStyle[scheme].shadowProp, listStyle[scheme].highlight]}>
-         <Text style={listStyle[scheme].time}>{FormatDate(item.date)}</Text>
+         <Text style={listStyle[scheme].time}>{FormatDateDisplay(item.date)}</Text>
             <ItemHead item={item} style={listStyle[scheme]}/>
             <Text style={listStyle[scheme].body}>{item.details}</Text>
             <View style={{flexDirection:"row"}}>
@@ -464,6 +464,25 @@ var listStyle = styles;
       dt.getHours().toString().padStart(2, '0')}:${
       dt.getMinutes().toString().padStart(2, '0')}`
   }
+
+  function FormatDateDisplay(timestamp) {
+    let dt = new Date(timestamp)
+      var month = (dt.getMonth()+1).toString().padStart(2, '0')
+      var day = dt.getDate().toString().padStart(2, '0')
+      var year = dt.getFullYear().toString().padStart(4, '0')
+      var currentYear = new Date().getFullYear()
+      var hours = dt.getHours().toString().padStart(2, '0')
+      var minutes = dt.getMinutes().toString().padStart(1, '0')
+      var ampm = hours >= 12 ? 'pm' : 'am';
+      var hours = hours % 12;
+      hours = hours ? hours : 12; // the hour '0' should be '12'
+      var minutes = minutes < 10 ? '0'+minutes : minutes;
+      var strTime = hours + ':' + minutes + ' ' + ampm;
+      var months = ['Jan', 'Feb', 'Mar', 'April', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct','Nov', 'Dec']
+      var ret = months[month-1] + '. ' + day + ' ' + hours + ':' + minutes + ampm 
+      if (currentYear != year) ret += ' (' + year + ')'
+      return ret;
+    }
 
   const ItemHead = ({item, style}) => {
  return (
