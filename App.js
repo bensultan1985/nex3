@@ -213,20 +213,22 @@ console.log('returned', str)
 
    let completeButton = '';
    let listTitle = "next up:"
+   let pageHeading = '';
    if (showList == "default") {
     listTitle = "next up:"
      completedButton = <AddButton text={"completed"} buttonChar={"\u2713"} toSet={false} setNextForm={setNextForm} func={toggleForm} showList={showList} setShowList={setShowList} currentList={"default"}></AddButton>;
-   } else if (showList == "completed") {
+     pageHeading = <Text style={styles.header}>NEX{'\u2191'}</Text>;
+    } else if (showList == "completed") {
     listTitle = "completed:"
-     completedButton = <AddButton text={"to do"} buttonChar={"\u2713"} toSet={false} setNextForm={setNextForm} func={toggleForm} showList={showList} setShowList={setShowList} currentList={"completed"}></AddButton>;
-   }
-
+     completedButton = <AddButton text={"next"} buttonChar={"\u2713"} toSet={false} setNextForm={setNextForm} func={toggleForm} showList={showList} setShowList={setShowList} currentList={"completed"}></AddButton>;
+     pageHeading = <Text style={[styles.header, styles.headerCompleted]}>Completed</Text>
+    }
 
 
   return (
     <SafeAreaView style={styles.safe}>
       {/* <Text style={styles.header}>CalBase</Text> */}
-      <Text style={styles.header}>NEX{'\u2191'}</Text>
+      {pageHeading}
       <View style={{flexDirection: "row", marginTop: 4}}>
        <AddButton isModification={isModification} setIsModification={setIsModification} text="add event" func={toggleForm} buttonChar={"\u002B"} _nextForm={_nextForm} setNextForm={setNextForm} toSet={"add"} showList={showList} showList={showList} currentList={"add"}></AddButton>
        {completedButton}
@@ -288,6 +290,9 @@ console.log('returned', str)
    subHeading: {
      fontSize: 24,
      padding: 4
+   },
+   headerCompleted: {
+    backgroundColor: '#1A80D2'
    }
  })
 

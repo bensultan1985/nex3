@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {Platform, TextInput, Button, Pressable} from 'react-native';
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 // import {Button, withTheme} from 'react-native-elements'
 import {View, SafeAreaView, Text, StyleSheet, FlatList, TouchableOpacity} from 'react-native'
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -13,8 +13,15 @@ import {setForm} from 'react'
     const [date, setDate] = useState(new Date());
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
+    console.log(date, 'date')
+
+    useEffect(() => {
+      toSetForm(date, 'date')
+
+    }, [])
     
     const onChange = (event, selectedDate) => {
+      console.log(selectedDate, 'selected')
       const currentDate = selectedDate || date;
       setShow(Platform.OS === 'ios');
       setDate(currentDate);
