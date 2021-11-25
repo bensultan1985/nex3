@@ -13,7 +13,6 @@ import {styles} from './styles.js'
         setNextForm('modification')
         setIsModification(true)
         toggleForm()
-        console.log('this item', item)
         setHoldMod(item)
     }
 

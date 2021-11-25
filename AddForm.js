@@ -13,15 +13,14 @@ import {setForm} from 'react'
     const [date, setDate] = useState(new Date());
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
-    console.log(date, 'date')
-
+    
     useEffect(() => {
       toSetForm(date, 'date')
 
     }, [])
     
     const onChange = (event, selectedDate) => {
-      console.log(selectedDate, 'selected')
+      // console.log(selectedDate, 'selected')
       const currentDate = selectedDate || date;
       setShow(Platform.OS === 'ios');
       setDate(currentDate);

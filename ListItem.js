@@ -15,21 +15,24 @@ var listStyle = styles;
 
 
 
-  const ListItem = ({item, data, SetData, setScrollRef, flatlistOnLoad, items, SortItems, FindIndexOfNext, indexOfNext, setIndexOfNext, toggleForm, modification, setModification, isModification, setIsModification, setNextForm, holdMod, setHoldMod, showList}) => {
+  const ListItem = ({item, data, SetData, setScrollRef, flatlistOnLoad, items, SortItems, FindIndexOfNext, indexOfNext, setIndexOfNext, toggleForm, modification, setModification, isModification, setIsModification, setNextForm, holdMod, setHoldMod, showList, setShowList}) => {
     if (showList == "completed") listStyle = styles2; else listStyle = styles;
 
     let scheme = FindScheme(item);
     if (item.key == items[items.length-1].key) {
+      setShowList(showList)
     setTimeout(flatlistOnLoad, 10)
     }
 
     function flatlistOnLoad() {
       let sortedDates = SortItems(items)
       possibleNext = FindIndexOfNext(sortedDates)
+      console.log(sortedDates, possibleNext)
       // console.log('THIS IS NEXT:', possibleNext)
       if (typeof possibleNext == 'number' && possibleNext > 0) setIndexOfNext(possibleNext);
       if (showList == 'default') {
       if (this.flatListRef) {
+        console.log(this.flatListRef.scrollToIndex)
         if (this.flatListRef.scrollToIndex) {
           console.log(this.flatListRef.scrollToIndex, 'flatlistRef')
 

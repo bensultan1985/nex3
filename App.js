@@ -39,11 +39,11 @@ _nextForm = false;
     if (type == 'modification') {
       var newArr = [];
       items.forEach(item => {
-        console.log(item, thisItem, 'COMPARISON SETDATA')
+        // console.log(item, thisItem, 'COMPARISON SETDATA')
         if (item.key != thisItem.key) newArr.push(item)
       })
       newArr.push(form)
-      console.log(newArr, 'NEW ARR')
+      // console.log(newArr, 'NEW ARR')
       setItems(prev => newArr)
       setNextForm(false)
       // setModification(false)
@@ -51,16 +51,16 @@ _nextForm = false;
     if (type == 'completed') {
       var newArr = [];
       items.forEach(item => {
-        console.log(item.key, thisItem.key)
+        // console.log(item.key, thisItem.key)
 
-        console.log(item, thisItem, 'COMPARISON SETDATA')
+        // console.log(item, thisItem, 'COMPARISON SETDATA')
         if (item.key != thisItem.key) newArr.push(item)
       })
       thisItem.completed = true;
       newArr.push(thisItem)
-      console.log(newArr, 'NEW ARR')
+      // console.log(newArr, 'NEW ARR')
       setItems(prev => newArr)
-      console.log(items)
+      // console.log(items)
       setNextForm(false)
       // setModification(false)
     }
@@ -92,7 +92,7 @@ _nextForm = false;
     try {
       if (!_init) return;
       const value = await AsyncStorage.getItem('nexItems');
-      console.log('data received from phone: ', value)
+      // console.log('data received from phone: ', value)
       // if (typeof value != null && value != '') {
         parVal = JSON.parse(value)
         SetItemsArr(parVal.items, true)
@@ -104,12 +104,12 @@ _nextForm = false;
   };
 
   const DataReturned = (str) => {
-console.log('returned', str)
+// console.log('returned', str)
   }
 
   const SetItemsArr =(value, fromApp) => {
     console.log('attempting to update data...')
-    console.log(value, items)
+    // console.log(value, items)
     let match = true;
     let longerArr = [];
     if (value.length >= items.length) longerArr = value.length; else longerArr = items.length;
@@ -146,21 +146,21 @@ console.log('returned', str)
   // const [_nextForm, setNextForm] = useState(false)
 
   const toggleForm = (next) => {
-    console.log('TOGGLE', _openForm, _nextForm)
+    // console.log('TOGGLE', _openForm, _nextForm)
     if (_openForm == _nextForm && _openForm != false && _openForm != 'modification') {
-      console.log('1')
+      // console.log('1')
       setOpenForm(false);
     } else if (_nextForm == 'add') {
-      console.log('2')
+      // console.log('2')
       if (_openForm == 'add') setOpenForm(false); else
       setOpenForm('add')
     } else if (_nextForm == 'modification') {
-      console.log('3')
+      // console.log('3')
 
       // if (_openForm == 'modification') setOpenForm(false); else
       setOpenForm('modification')
     } else if (_nextForm == false) {
-      console.log('4')
+      // console.log('4')
 
       setOpenForm(false)
     }
@@ -207,7 +207,7 @@ console.log('returned', str)
         }
       }
     }
-    console.log(retList, showList)
+    // console.log(retList, showList)
     return retList
    }
 
@@ -249,6 +249,7 @@ console.log('returned', str)
       }
       
         onScrollToIndexFailed={error => {
+          console.log('ERROR scroll')
           this.flatListRef.scrollToOffset({
               offset: error.averageItemLength * error.index,
               animated: true,
@@ -257,13 +258,17 @@ console.log('returned', str)
       }}
       data = {GetShowList(SortItems(items))}
       
-      ref={(ref) => this.flatListRef = ref}
+      ref={(ref) => {
+        // console.log(ref, 'ref')
+        this.flatListRef = ref
+        }
+      }
       // data={DATA}
 
 
 
       renderItem = {({item, data}) =>
-      <ListItem toggleForm={toggleForm} FindIndexOfNext={FindIndexOfNext} SortItems={SortItems} SetData={SetData} item={item} data={data} setScrollRef={setScrollRef}  items={SortItems(items)} rerender={rerender} setRerender={setRerender} indexOfNext={indexOfNext} setIndexOfNext={setIndexOfNext} isModification={isModification} setIsModification={setIsModification} setNextForm={setNextForm} holdMod={holdMod} setHoldMod={setHoldMod} showList={showList} setShowList={setShowList}/>}
+      <ListItem setShowList={setShowList} toggleForm={toggleForm} FindIndexOfNext={FindIndexOfNext} SortItems={SortItems} SetData={SetData} item={item} data={data} setScrollRef={setScrollRef}  items={SortItems(items)} rerender={rerender} setRerender={setRerender} indexOfNext={indexOfNext} setIndexOfNext={setIndexOfNext} isModification={isModification} setIsModification={setIsModification} setNextForm={setNextForm} holdMod={holdMod} setHoldMod={setHoldMod} showList={showList} setShowList={setShowList}/>}
       keyExtractor={(item) => item.key}
       getItemLayout={this.getItemLayout}
       // scrollToView={200}

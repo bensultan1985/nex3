@@ -7,9 +7,9 @@ import {View, SafeAreaView, Text, StyleSheet, FlatList, TouchableOpacity} from '
   //  console.log('func', func)
   return (
     <TouchableOpacity onPress={() => {
-      console.log(toSet)
+      // console.log(toSet)
       setNextForm(toSet)
-      console.log(_nextForm)
+      // console.log(_nextForm)
       if (currentList == "completed") {
         if (showList == "default") setShowList("completed"); else 
         setShowList("default")

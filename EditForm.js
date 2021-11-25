@@ -70,7 +70,6 @@ import {setForm} from 'react'
         }
         case 'date': {
           var date = new Date(text).getTime();
-          console.log('this is date: ', date)
           setHoldMod({...holdMod, date: date});
           return
         }
