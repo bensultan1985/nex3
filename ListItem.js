@@ -14,13 +14,12 @@ var listStyle = styles;
 
 
 
-
   const ListItem = ({item, data, SetData, setScrollRef, flatlistOnLoad, items, SortItems, FindIndexOfNext, indexOfNext, setIndexOfNext, toggleForm, modification, setModification, isModification, setIsModification, setNextForm, holdMod, setHoldMod, showList, setShowList}) => {
     if (showList == "completed") listStyle = styles2; else listStyle = styles;
 
     let scheme = FindScheme(item);
     if (item.key == items[items.length-1].key) {
-      setShowList(showList)
+      // setShowList(showList)
     setTimeout(flatlistOnLoad, 10)
     }
 
@@ -28,16 +27,23 @@ var listStyle = styles;
       let sortedDates = SortItems(items)
       possibleNext = FindIndexOfNext(sortedDates)
       console.log(sortedDates, possibleNext)
-      // console.log('THIS IS NEXT:', possibleNext)
-      if (typeof possibleNext == 'number' && possibleNext > 0) setIndexOfNext(possibleNext);
+      console.log('THIS IS NEXT:', possibleNext)
+      if (typeof possibleNext ==  'number' && possibleNext > 0) setIndexOfNext(possibleNext);
+      console.log(showList, possibleNext, typeof possibleNext, 'check')
       if (showList == 'default') {
       if (this.flatListRef) {
+        console.log('FLATLISTREF MAIN', this.flatListRef)
+        console.log('pass')
         console.log(this.flatListRef.scrollToIndex)
         if (this.flatListRef.scrollToIndex) {
+          console.log('pass2')
+          console.log(this.ref)
+          console.log(this.scrollToIndex)
           console.log(this.flatListRef.scrollToIndex, 'flatlistRef')
-
           this.flatListRef.scrollToIndex({ index: indexOfNext });
-            init = false;
+            // init = false;
+                  // setTimeout(() => {setShowList(showList)}, 20);
+
           }
         }
       }
@@ -52,7 +58,8 @@ var listStyle = styles;
   
    return (
      <TouchableOpacity>
-         <View          ref={ref => {
+         <View          
+         ref={ref => {
           this.flatListRef = ref;
           // console.log('REF', this.flatListRef)
           let thisScheme = FindScheme(item)

@@ -207,7 +207,7 @@ _nextForm = false;
         }
       }
     }
-    // console.log(retList, showList)
+    console.log(retList, showList)
     return retList
    }
 
@@ -264,11 +264,8 @@ _nextForm = false;
         }
       }
       // data={DATA}
-
-
-
       renderItem = {({item, data}) =>
-      <ListItem setShowList={setShowList} toggleForm={toggleForm} FindIndexOfNext={FindIndexOfNext} SortItems={SortItems} SetData={SetData} item={item} data={data} setScrollRef={setScrollRef}  items={SortItems(items)} rerender={rerender} setRerender={setRerender} indexOfNext={indexOfNext} setIndexOfNext={setIndexOfNext} isModification={isModification} setIsModification={setIsModification} setNextForm={setNextForm} holdMod={holdMod} setHoldMod={setHoldMod} showList={showList} setShowList={setShowList}/>}
+      <ListItem setShowList={setShowList} toggleForm={toggleForm} FindIndexOfNext={FindIndexOfNext} SortItems={SortItems} SetData={SetData} item={item} data={data} setScrollRef={setScrollRef}  items={GetShowList(SortItems(items))} rerender={rerender} setRerender={setRerender} indexOfNext={indexOfNext} setIndexOfNext={setIndexOfNext} isModification={isModification} setIsModification={setIsModification} setNextForm={setNextForm} holdMod={holdMod} setHoldMod={setHoldMod} showList={showList} setShowList={setShowList}/>}
       keyExtractor={(item) => item.key}
       getItemLayout={this.getItemLayout}
       // scrollToView={200}
