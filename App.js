@@ -69,7 +69,7 @@ _nextForm = false;
   useEffect(() => {
     console.log('updating store')
     SetStore()
-  })
+  }, [])
 
   const SetStore = async () => {
     try {
@@ -132,6 +132,7 @@ _nextForm = false;
   const [holdMod, setHoldMod] = useState({})
   const [showList, setShowList] = useState("default")
   const [rerender, setRerender] = useState({render:true})
+  const [scrollMonitor, setScrollMonitor] = useState(true)
   const [items, setItems] = useState(
     [
     //  {key: 230874309, date: 1633095600000, title: 'Harvest Interview', details: 'Second interview'},
@@ -193,9 +194,9 @@ _nextForm = false;
    function GetShowList(listItems) {
      let retList = [];
       if (showList == 'default') {
-        console.log('default')
+        // console.log('default', 'testing')
       for (let i = 0; i < listItems.length; i++) {
-        if (listItems[i].completed == false || listItems[i].completed == null) {
+        if (listItems[i].completed != true || listItems[i].completed == null) {
           retList.push(listItems[i])
         }
       }
@@ -207,7 +208,7 @@ _nextForm = false;
         }
       }
     }
-    console.log(retList, showList)
+    // console.log(retList, showList, 'full list')
     return retList
    }
 
@@ -222,6 +223,7 @@ _nextForm = false;
     listTitle = "completed:"
      completedButton = <AddButton text={"next"} buttonChar={"\u2713"} toSet={false} setNextForm={setNextForm} func={toggleForm} showList={showList} setShowList={setShowList} currentList={"completed"}></AddButton>;
      pageHeading = <Text style={[styles.header, styles.headerCompleted]}>Completed</Text>
+    //  setScrollMonitor(true)
     }
 
 
@@ -243,27 +245,18 @@ _nextForm = false;
       </View>
       {formView}
       <Text style={styles.subHeading}>{listTitle}</Text>
-      {<FlatList style={styles.eventList}
-        // data = {RemoveItemsBeforeToday(SortItems(items))}
-        onScrollToTop={this.ref
-      }
-      
+      {<FlatList
+      style={styles.eventList}
+      onScrollToTop={this.ref}
         onScrollToIndexFailed={error => {
           console.log('ERROR scroll')
           this.flatListRef.scrollToOffset({
               offset: error.averageItemLength * error.index,
               animated: true,
           });
-          
       }}
       data = {GetShowList(SortItems(items))}
-      
-      ref={(ref) => {
-        // console.log(ref, 'ref')
-        this.flatListRef = ref
-        }
-      }
-      // data={DATA}
+      ref={(ref) => {this.flatListRef = ref}}
       renderItem = {({item, data}) =>
       <ListItem setShowList={setShowList} toggleForm={toggleForm} FindIndexOfNext={FindIndexOfNext} SortItems={SortItems} SetData={SetData} item={item} data={data} setScrollRef={setScrollRef}  items={GetShowList(SortItems(items))} rerender={rerender} setRerender={setRerender} indexOfNext={indexOfNext} setIndexOfNext={setIndexOfNext} isModification={isModification} setIsModification={setIsModification} setNextForm={setNextForm} holdMod={holdMod} setHoldMod={setHoldMod} showList={showList} setShowList={setShowList}/>}
       keyExtractor={(item) => item.key}

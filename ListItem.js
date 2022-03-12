@@ -18,6 +18,7 @@ var listStyle = styles;
     if (showList == "completed") listStyle = styles2; else listStyle = styles;
 
     let scheme = FindScheme(item);
+    // console.log('item', item)
     if (item.key == items[items.length-1].key) {
       // setShowList(showList)
     setTimeout(flatlistOnLoad, 10)
@@ -26,18 +27,18 @@ var listStyle = styles;
     function flatlistOnLoad() {
       let sortedDates = SortItems(items)
       possibleNext = FindIndexOfNext(sortedDates)
-      console.log(sortedDates, possibleNext)
+      // console.log(sortedDates, possibleNext)
       console.log('THIS IS NEXT:', possibleNext)
       if (typeof possibleNext ==  'number' && possibleNext > 0) setIndexOfNext(possibleNext);
-      console.log(showList, possibleNext, typeof possibleNext, 'check')
+      // console.log(showList, possibleNext, typeof possibleNext, 'check')
       if (showList == 'default') {
       if (this.flatListRef) {
-        console.log('FLATLISTREF MAIN', this.flatListRef)
+        // console.log('FLATLISTREF MAIN', this.flatListRef)
         console.log('pass')
         console.log(this.flatListRef.scrollToIndex)
         if (this.flatListRef.scrollToIndex) {
           console.log('pass2')
-          console.log(this.ref)
+          // console.log(this.ref)
           console.log(this.scrollToIndex)
           console.log(this.flatListRef.scrollToIndex, 'flatlistRef')
           this.flatListRef.scrollToIndex({ index: indexOfNext });
